@@ -5,9 +5,7 @@ import postgres from 'postgres';
 
 const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require' });
 
-/**
- * CREATE INVOICE
- */
+
 export async function createInvoice(formData: FormData) {
   const customerId = formData.get('customerId') as string;
   const amount = Number(formData.get('amount')) * 100; // simpan dalam cents

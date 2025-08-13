@@ -1,31 +1,36 @@
+import { fetchCustomers } from '@/app/lib/data';
 import CustomersTable from '@/app/ui/customers/table';
-import postgres from 'postgres';
+import { lusitana } from '@/app/ui/fonts';
+import { Suspense } from 'react';
 
-const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require' });
-
-async function getCustomers() {
-  return await sql`
-    SELECT
-      c.id,
-      c.name,
-      c.email,
-      c.image_url,
-      COUNT(i.id) AS total_invoices,
-      SUM(CASE WHEN i.status = 'pending' THEN i.amount ELSE 0 END) AS total_pending,
-      SUM(CASE WHEN i.status = 'paid' THEN i.amount ELSE 0 END) AS total_paid
-    FROM customers c
-    LEFT JOIN invoices i ON c.id = i.customer_id
-    GROUP BY c.id
-    ORDER BY c.name;
-  `;
+// Komponen fallback untuk Suspense
+function CustomersTableFallback() {
+  return <div>Loading customers...</div>;
 }
 
 export default async function Page() {
-  const customers = await getCustomers();
+  const rawCustomers = await fetchCustomers();
+
+  // Map rawCustomers to the expected FormattedCustomersTable[] type
+  const customers = rawCustomers.map((customer: any) => ({
+    id: customer.id,
+    name: customer.name,
+    email: customer.email,
+    image_url: customer.image_url,
+    total_invoices: customer.total_invoices,
+    total_pending: customer.total_pending,
+    total_paid: customer.total_paid,
+  }));
 
   return (
-    <div className="p-4">
-      <CustomersTable customers={customers} />
+    <div className="w-full">
+      <h1 className={`${lusitana.className} text-2xl font-semibold text-gray-800`}>
+        Pelanggan
+      </h1>
+
+      <Suspense fallback={<CustomersTableFallback />}>
+        <CustomersTable customers={customers} />
+      </Suspense>
     </div>
   );
 }
