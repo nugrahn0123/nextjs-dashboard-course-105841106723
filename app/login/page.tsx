@@ -37,7 +37,7 @@ export default function LoginPage() {
       >
         <h2 className="text-2xl font-bold text-center mb-6">Login</h2>
 
-        <label className="block mb-2 text-sm font-medium">Email</label>
+        <label className="block mb-2 text-sm font-medium">Email (nugrah@gmail.com)</label>
         <input
           type="email"
           value={email}
@@ -47,7 +47,7 @@ export default function LoginPage() {
           required
         />
 
-        <label className="block mt-4 mb-2 text-sm font-medium">Password</label>
+        <label className="block mt-4 mb-2 text-sm font-medium">Password (123456)</label>
         <input
           type="password"
           value={password}
