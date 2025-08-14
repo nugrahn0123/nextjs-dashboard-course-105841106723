@@ -50,7 +50,7 @@ export default async function Page(props: {
 
       {/* Pagination */}
       <div className="mt-6 flex justify-center">
-        <Pagination totalPages={totalPages} currentPage={currentPage} query={query} />
+        <Pagination totalPages={totalPages} currentPage={currentPage} />
       </div>
     </div>
   );
