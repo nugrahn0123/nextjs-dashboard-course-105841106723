@@ -1,5 +1,5 @@
 import { fetchCustomers } from '@/app/lib/data';
-import CustomersTable from '@/app/ui/customers/table';
+import CustomersTable from '@/app/ui/customers/table'
 import { lusitana } from '@/app/ui/fonts';
 import { Suspense } from 'react';
 
@@ -9,18 +9,7 @@ function CustomersTableFallback() {
 }
 
 export default async function Page() {
-  const rawCustomers = await fetchCustomers();
-
-  // Map rawCustomers to the expected FormattedCustomersTable[] type
-  const customers = rawCustomers.map((customer: any) => ({
-    id: customer.id,
-    name: customer.name,
-    email: customer.email,
-    image_url: customer.image_url,
-    total_invoices: customer.total_invoices,
-    total_pending: customer.total_pending,
-    total_paid: customer.total_paid,
-  }));
+  const customers = await fetchCustomers();
 
   return (
     <div className="w-full">
